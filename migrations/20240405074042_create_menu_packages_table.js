@@ -4,7 +4,7 @@ exports.up = function (knex) {
     table.string("title").notNullable();
     table.text("description").notNullable();
     table.decimal("price_per_head", 10, 2).notNullable();
-    table.json("contents"), notNullable();
+    table.json("contents").notNullable();
   });
 };
 
