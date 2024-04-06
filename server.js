@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const menuRoute = require("./routes/menuRoute");
+const hallsRoute = require("./routes/hallsRoute");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -11,7 +12,7 @@ app.use(express.json());
 
 //Routes
 app.use("/api/v1/menu-packages", menuRoute);
-// app.use("/api/v1/halls", halls);
+app.use("/api/v1/halls", hallsRoute);
 // app.use("/api/v1/booking-requests", booking);
 
 // Error handling middleware
