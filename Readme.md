@@ -8,5 +8,5 @@ Steps to set up the database:
    DB_USER=root
    DB_PASSWORD=rootroot
 3. npm install
-4. npx knex migrate:latest (This command uses the migration files to create the necessary database tables and columns.)
-5. npx knex seed:run (Seeds populate your newly created database tables with initial data from the seed files)
+4. Run the script <npm run migrate> in terminal. (This command uses the migration files to create the necessary database tables and columns.)
+5. Run the script <npm run seed> in terminal. (Seeds populate your newly created database tables with initial data from the seed files)
