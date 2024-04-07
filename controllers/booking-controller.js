@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+const { validateIncomingRequest } = require("../utils/bookingRequestHelpers");
 
 const addNewRequest = async (req, res) => {
   try {
@@ -9,10 +10,14 @@ const addNewRequest = async (req, res) => {
       hall_id,
       menu_package_id,
       event_date,
-      status,
     } = req.body;
 
     // Validate Data
+    const validation = await validateIncomingRequest(req.body);
+    if (!validation.isValid) {
+      // if validation.isValid returns false, handle validation error
+      return res.status(400).json({ message: validation.message });
+    }
 
     // Insert new booking request into the database
     const [newBookingId] = await knex("booking_requests").insert({
@@ -22,7 +27,6 @@ const addNewRequest = async (req, res) => {
       hall_id,
       menu_package_id,
       event_date,
-      status,
     });
 
     const newBooking = await knex("booking_requests")

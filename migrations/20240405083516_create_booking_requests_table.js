@@ -10,7 +10,8 @@ exports.up = function (knex) {
     table.timestamp("created_at").defaultTo(knex.fn.now());
     table
       .enu("status", ["Pending", "Confirmed", "Cancelled", "Completed"])
-      .notNullable();
+      .notNullable()
+      .defaultTo("Pending");
 
     table.foreign("hall_id").references("halls.hall_id");
     table.foreign("menu_package_id").references("menu_packages.package_id");
