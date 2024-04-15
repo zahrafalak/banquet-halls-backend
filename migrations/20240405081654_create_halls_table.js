@@ -5,6 +5,7 @@ exports.up = function (knex) {
     table.integer("capacity").notNullable();
     table.text("description");
     table.decimal("price", 10, 2).notNullable();
+    table.string("hallImage_url", 255).notNullable();
   });
 };
 
