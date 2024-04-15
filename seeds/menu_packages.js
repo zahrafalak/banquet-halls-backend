@@ -6,6 +6,7 @@ exports.seed = async function (knex) {
       title: "Classic Elegance",
       description:
         "A timeless selection of our most beloved dishes, perfect for any occasion.",
+      image_url: "http://localhost:8080/classic.jpg",
       price_per_head: 75.0,
       contents: JSON.stringify({
         appetizers: ["Caesar Salad", "Bruschetta"],
@@ -17,6 +18,7 @@ exports.seed = async function (knex) {
       title: "Modern Fusion",
       description:
         "A contemporary twist on classic flavors, offering a unique dining experience.",
+      image_url: "http://localhost:8080/fusion.jpg",
       price_per_head: 85.0,
       contents: JSON.stringify({
         appetizers: [
@@ -34,6 +36,7 @@ exports.seed = async function (knex) {
       title: "Vegetarian Delight",
       description:
         "A gourmet selection of vegetarian dishes, crafted with the freshest seasonal ingredients.",
+      image_url: "http://localhost:8080/vegetarian.jpg",
       price_per_head: 65.0,
       contents: JSON.stringify({
         appetizers: ["Caprese Salad with Balsamic Glaze", "Stuffed Mushrooms"],

@@ -5,7 +5,8 @@ const getMenuPackages = async (_req, res) => {
     const data = await knex("menu_packages");
     res.status(200).json(data);
   } catch (err) {
-    res.status(400).send(`Error retrieving Menu: ${err}`);
+    console.error(`Error retrieving Menu Packages: ${err}`);
+    res.status(500).send(`Error retrieving Menu Packages: ${err.message}`);
   }
 };
 
