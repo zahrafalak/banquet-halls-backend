@@ -10,3 +10,4 @@ Steps to set up the database:
 3. npm install
 4. Run the script <npm run migrate> in terminal. (This command uses the migration files to create the necessary database tables and columns.)
 5. Run the script <npm run seed> in terminal. (Seeds populate your newly created database tables with initial data from the seed files)
+6. Run 'nodemon server' command to start the server.
