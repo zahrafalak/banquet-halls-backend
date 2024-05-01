@@ -33,7 +33,6 @@ const addNewRequest = async (req, res) => {
       .where({ booking_id: newBookingId })
       .first();
 
-    console.log(newBooking);
     res.status(201).json({
       message: "Booking request created successfully",
       booking: newBooking,
