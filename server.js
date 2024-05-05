@@ -44,11 +44,11 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.GOOGLE_CALLBACK_URL,
-      scope: ["profile", "email"], // Define scopes here
+      scope: ["profile", "email"],
     },
     async (_accessToken, _refreshToken, profile, done) => {
       console.log("Google profile:", profile);
-      // Implementation details as before
+
       knex("users")
         .select("id")
         .where({ google_id: profile.id })
@@ -58,9 +58,9 @@ passport.use(
           } else {
             knex("users")
               .insert({
-                google_id: profile.id, // Assuming `google_id` is a string in your schema
-                avatar_url: profile._json.picture, // Make sure profile._json contains 'picture'
-                username: profile.displayName, // Using the correct column name 'username'
+                google_id: profile.id,
+                email: profile.emails[0].value,
+                username: profile.displayName,
               })
               .then((userId) => {
                 done(null, { id: userId[0] });
