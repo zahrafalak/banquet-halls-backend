@@ -7,7 +7,7 @@ exports.seed = async function (knex) {
       description:
         "Our largest hall, adorned with crystal chandeliers and a classic decor. Perfect for weddings and large corporate events.",
       price: 5000,
-      hallImage_url: "http://localhost:8080/hall1.jpg",
+      hallImage_url: `${process.env.BASE_URL}/hall1.jpg`,
     },
     {
       name: "Sapphire Conference Room",
@@ -15,7 +15,7 @@ exports.seed = async function (knex) {
       description:
         "A modern, tech-equipped space ideal for conferences, presentations, and workshops.",
       price: 2000,
-      hallImage_url: "http://localhost:8080/hall2.jpg",
+      hallImage_url: `${process.env.BASE_URL}/hall2.jpg`,
     },
     {
       name: "Ruby Lounge",
@@ -23,7 +23,7 @@ exports.seed = async function (knex) {
       description:
         "An intimate setting with luxurious furnishings for high-profile meetings and small gatherings.",
       price: 950,
-      hallImage_url: "http://localhost:8080/hall3.jpg",
+      hallImage_url: `${process.env.BASE_URL}/hall3.jpg`,
     },
   ]);
 };
