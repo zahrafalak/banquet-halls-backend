@@ -1,29 +1,41 @@
 exports.seed = async function (knex) {
-  await knex("halls").del();
-  await knex("halls").insert([
+  await knex("menu_packages").del();
+  await knex("menu_packages").insert([
     {
-      name: "Emerald Banquet Hall",
-      capacity: 300,
+      title: "Classic Elegance",
       description:
-        "Our largest hall, adorned with crystal chandeliers and a classic decor. Perfect for weddings and large corporate events.",
-      price: 5000,
-      hallImage_url: `${process.env.BASE_URL}/hall1.jpg`,
+        "A timeless selection of our most beloved dishes, perfect for any occasion.",
+      image_url: "https://res.cloudinary.com/dxqnbl6rc/image/upload/v1775514510/classic_vgbcpj.jpg",
+      price_per_head: 75.0,
+      contents: JSON.stringify({
+        appetizers: ["Caesar Salad", "Bruschetta"],
+        mains: ["Grilled Salmon with Lemon Butter", "Beef Wellington"],
+        desserts: ["Tiramisu", "Crème Brûlée"],
+      }),
     },
     {
-      name: "Sapphire Conference Room",
-      capacity: 150,
+      title: "Modern Fusion",
       description:
-        "A modern, tech-equipped space ideal for conferences, presentations, and workshops.",
-      price: 2000,
-      hallImage_url: `${process.env.BASE_URL}/hall2.jpg`,
+        "A contemporary twist on classic flavors, offering a unique dining experience.",
+      image_url: "https://res.cloudinary.com/dxqnbl6rc/image/upload/v1775514532/fusion_k30ynu.jpg",
+      price_per_head: 85.0,
+      contents: JSON.stringify({
+        appetizers: ["Seared Scallops on Sweet Corn Puree", "Avocado and Mango Salad"],
+        mains: ["Duck Breast with Cherry Sauce", "Quinoa and Black Bean Stuffed Peppers"],
+        desserts: ["Matcha Green Tea Cake", "Lemon Sorbet with Mint"],
+      }),
     },
     {
-      name: "Ruby Lounge",
-      capacity: 75,
+      title: "Vegetarian Delight",
       description:
-        "An intimate setting with luxurious furnishings for high-profile meetings and small gatherings.",
-      price: 950,
-      hallImage_url: `${process.env.BASE_URL}/hall3.jpg`,
+        "A gourmet selection of vegetarian dishes, crafted with the freshest seasonal ingredients.",
+      image_url: "https://res.cloudinary.com/dxqnbl6rc/image/upload/v1775514648/vegetarian_duzzaz.jpg",
+      price_per_head: 65.0,
+      contents: JSON.stringify({
+        appetizers: ["Caprese Salad with Balsamic Glaze", "Stuffed Mushrooms"],
+        mains: ["Eggplant Parmesan", "Thai Green Curry with Tofu"],
+        desserts: ["Apple Pie", "Chocolate Lava Cake"],
+      }),
     },
   ]);
 };
