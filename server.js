@@ -24,11 +24,11 @@ app.use(express.static("public"));
 // Public
 app.use("/api/v1/menu-packages", menuRoute);
 app.use("/api/v1/halls", hallsRoute);
-app.use("/api/v1/booked-dates", bookedDatesRoute);
 
 // Protected — logged in users only
 app.use("/api/v1/my-bookings", checkAuth, myBookingsRoute);
 app.use("/api/v1/booking-requests", checkAuth, bookingRoute);
+app.use("/api/v1/booked-dates", checkAuth, bookedDatesRoute);
 
 // Protected — admin only
 app.use("/api/v1/admin", checkAuth, requireAdmin, adminRoute);
