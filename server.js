@@ -33,14 +33,22 @@ app.use("/api/v1/booked-dates", checkAuth, bookedDatesRoute);
 // Protected — admin only
 app.use("/api/v1/admin", checkAuth, requireAdmin, adminRoute);
 
+
 // Error handling middleware
 app.use((err, _req, res, _next) => {
   console.error(err.stack);
-  res
-    .status(500)
-    .send(
-      "An unexpected error occurred while processing your request. Please try again later"
-    );
+
+  // Handle Auth0 JWT errors
+  if (err.status === 401) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  if (err.status === 403) {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+
+  res.status(500).send(
+    "An unexpected error occurred while processing your request. Please try again later"
+  );
 });
 
 // Start server
