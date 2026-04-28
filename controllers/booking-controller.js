@@ -46,7 +46,15 @@ const addNewRequest = async (req, res) => {
 const getMyBookings = async (req, res) => {
   try {
     const user_id = req.auth.payload.sub;
-    const bookings = await knex("booking_requests").where({ user_id });
+    const bookings = await knex("booking_requests")
+      .where({ user_id })
+      .join("halls", "booking_requests.hall_id", "halls.hall_id")
+      .join("menu_packages", "booking_requests.menu_package_id", "menu_packages.package_id")
+      .select(
+        "booking_requests.*",
+        "halls.name as hall_name",
+        "menu_packages.title as menu_package_title"
+      );
     res.status(200).json(bookings);
   } catch (err) {
     console.error(`Error retrieving bookings: ${err}`);
