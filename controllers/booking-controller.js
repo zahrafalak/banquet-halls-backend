@@ -12,14 +12,13 @@ const addNewRequest = async (req, res) => {
       event_date,
     } = req.body;
 
-    // Validate Data
+    const user_id = req.auth.payload.sub;
+
     const validation = await validateIncomingRequest(req.body);
     if (!validation.isValid) {
-      // if validation.isValid returns false, handle validation error
       return res.status(400).json({ message: validation.message });
     }
 
-    // Insert new booking request into the database
     const [newBookingId] = await knex("booking_requests").insert({
       first_name,
       last_name,
@@ -27,6 +26,7 @@ const addNewRequest = async (req, res) => {
       hall_id,
       menu_package_id,
       event_date,
+      user_id,
     });
 
     const newBooking = await knex("booking_requests")
@@ -43,7 +43,6 @@ const addNewRequest = async (req, res) => {
   }
 };
 
-// Get bookings for the logged-in user
 const getMyBookings = async (req, res) => {
   try {
     const user_id = req.auth.payload.sub;
@@ -55,7 +54,6 @@ const getMyBookings = async (req, res) => {
   }
 };
 
-// Get all bookings — admin only
 const getAllBookings = async (req, res) => {
   try {
     const bookings = await knex("booking_requests");
@@ -66,7 +64,6 @@ const getAllBookings = async (req, res) => {
   }
 };
 
-// Update booking status — admin only
 const updateBookingStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -88,7 +85,6 @@ const updateBookingStatus = async (req, res) => {
   }
 };
 
-// Get confirmed booked dates — public
 const getBookedDates = async (req, res) => {
   try {
     const bookedDates = await knex("booking_requests")
