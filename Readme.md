@@ -15,7 +15,7 @@ A REST API for the Sky Banquet Halls booking system. Built with Node.js and Expr
 - **Database:** MySQL
 - **Query Builder:** Knex.js
 - **Authentication:** Auth0 (JWT access tokens, verified with `express-oauth2-jwt-bearer`)
-- **Testing:** Jest
+- **Testing:** Jest, supertest
 - **CI:** GitHub Actions
 - **Images:** hall photos served from the API's `public/` folder; menu photos on Cloudinary
 - **Hosting:** Railway
@@ -221,12 +221,16 @@ The API will be running at `http://localhost:8080`.
 
 ## Testing and CI
 
-Unit tests live in `__tests__/` and run with Jest, without a database or Auth0:
+Tests live in `__tests__/` and run with Jest:
 
 - **`requireAdmin`**: an admin token passes; a customer token, a token without roles, or no login at all gets 403.
 - **Booking validation**: valid requests pass (including names like O'Brien and Zoë); missing fields, names with numbers or symbols, an email without `@`, invalid hall or menu ids, and past, impossible or badly formatted dates are rejected. "Tomorrow" is checked in Alberta time, with a fixed clock.
 - **Booking controller**: a booking is linked to the logged-in user from the token, even if the body names someone else; invalid requests and statuses are rejected before touching the database; an unknown booking id returns 404.
 - **Halls controller**: returns the halls with 200, and a 500 with a generic message (no internal error details) when the database fails.
+
+- **Routes (supertest)**: every protected route returns 401 without a valid token (using the real Auth0 middleware, before any database call); a logged-in customer gets 403 on admin routes and an admin gets through; public routes work without logging in; a malformed JSON body returns 400; the `x-powered-by` header is hidden. These prove the routes in `server.js` are actually wired to the auth checks.
+
+Unit and route tests run without a database or network: the database is replaced with a stand-in in each test.
 
 GitHub Actions (`.github/workflows/ci.yml`) runs `npm ci` and `npm test` on every push and pull request.
 
