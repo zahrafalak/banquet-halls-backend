@@ -17,7 +17,7 @@ A REST API for the Sky Banquet Halls booking system. Built with Node.js and Expr
 - **Authentication:** Auth0 (JWT access tokens, verified with `express-oauth2-jwt-bearer`)
 - **Testing:** Jest
 - **CI:** GitHub Actions
-- **Image Hosting:** Cloudinary
+- **Images:** hall photos served from the API's `public/` folder; menu photos on Cloudinary
 - **Hosting:** Railway
 
 ---
@@ -109,7 +109,13 @@ Authorization: Bearer <access token>
 }
 ```
 
-The request is validated on the server (required fields, names, email format, a future date in `YYYY-MM-DD` format) and linked to the logged-in user.
+The request is validated on the server and linked to the logged-in user (from the token, never from the request body):
+
+- all fields are required
+- names: letters (any language), spaces, apostrophes and hyphens, e.g. O'Brien, Jean-Luc, Zoë
+- email in a valid format
+- `event_date`: a real calendar date in `YYYY-MM-DD` format, after today in Alberta time
+- `hall_id` and `menu_package_id`: positive whole numbers
 
 **Success response:** `201 Created`
 
@@ -132,7 +138,7 @@ Returns the dates of confirmed bookings, so the date picker can disable them.
 GET   /api/v1/admin/bookings
 PATCH /api/v1/admin/bookings/:id     { "status": "Confirmed" }
 ```
-Status must be one of `Pending`, `Confirmed`, `Cancelled`, `Completed`.
+Status must be one of `Pending`, `Confirmed`, `Cancelled`, `Completed`. An unknown booking id returns **404**.
 
 ---
 
@@ -140,9 +146,10 @@ Status must be one of `Pending`, `Confirmed`, `Cancelled`, `Completed`.
 
 | Status | When |
 |---|---|
-| `400` | Invalid input (validation message in `message`) |
+| `400` | Invalid input or a malformed JSON body (reason in `message`) |
 | `401` | Missing or invalid access token |
 | `403` | Logged in but not an admin |
+| `404` | Booking not found (admin status update) |
 | `500` | Unexpected server error. The response has a generic message; details are logged on the server only. |
 
 ---
@@ -217,7 +224,8 @@ The API will be running at `http://localhost:8080`.
 Unit tests live in `__tests__/` and run with Jest, without a database or Auth0:
 
 - **`requireAdmin`**: an admin token passes; a customer token, a token without roles, or no login at all gets 403.
-- **Booking validation**: valid requests pass; missing fields, names with numbers or symbols, an email without `@`, and past or badly formatted dates are rejected.
+- **Booking validation**: valid requests pass (including names like O'Brien and Zoë); missing fields, names with numbers or symbols, an email without `@`, invalid hall or menu ids, and past, impossible or badly formatted dates are rejected. "Tomorrow" is checked in Alberta time, with a fixed clock.
+- **Booking controller**: a booking is linked to the logged-in user from the token, even if the body names someone else; invalid requests and statuses are rejected before touching the database; an unknown booking id returns 404.
 - **Halls controller**: returns the halls with 200, and a 500 with a generic message (no internal error details) when the database fails.
 
 GitHub Actions (`.github/workflows/ci.yml`) runs `npm ci` and `npm test` on every push and pull request.
@@ -228,7 +236,7 @@ GitHub Actions (`.github/workflows/ci.yml`) runs `npm ci` and `npm test` on ever
 
 This backend is deployed on **Railway** with a MySQL database service, and redeploys automatically when changes are merged to `main`.
 
-Environment variables are set in the Railway dashboard. Images are hosted on **Cloudinary**.
+Environment variables are set in the Railway dashboard. Hall photos are served from `public/` using `BASE_URL`; menu photos are hosted on **Cloudinary**.
 
 To reseed the production database locally:
 ```bash
