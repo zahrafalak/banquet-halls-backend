@@ -86,6 +86,9 @@ const updateBookingStatus = async (req, res) => {
     const updated = await knex("booking_requests")
       .where({ booking_id: id })
       .first();
+    if (!updated) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
     res.status(200).json(updated);
   } catch (err) {
     console.error(`Error updating booking status: ${err}`);

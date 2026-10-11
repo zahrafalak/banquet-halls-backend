@@ -10,5 +10,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT || 3306,
     charset: "utf8",
+    // Return DATE columns as "YYYY-MM-DD" strings, so event dates don't shift with time zones
+    dateStrings: true,
   },
 };
