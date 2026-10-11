@@ -39,7 +39,7 @@ const addNewRequest = async (req, res) => {
     });
   } catch (err) {
     console.error(`Error creating booking request: ${err}`);
-    res.status(400).send(`Error creating booking request: ${err.message}`);
+    res.status(500).json({ message: "Could not create booking request" });
   }
 };
 
@@ -58,7 +58,7 @@ const getMyBookings = async (req, res) => {
     res.status(200).json(bookings);
   } catch (err) {
     console.error(`Error retrieving bookings: ${err}`);
-    res.status(400).send(`Error retrieving bookings: ${err.message}`);
+    res.status(500).json({ message: "Could not retrieve bookings" });
   }
 };
 
@@ -68,7 +68,7 @@ const getAllBookings = async (req, res) => {
     res.status(200).json(bookings);
   } catch (err) {
     console.error(`Error retrieving all bookings: ${err}`);
-    res.status(400).send(`Error retrieving all bookings: ${err.message}`);
+    res.status(500).json({ message: "Could not retrieve bookings" });
   }
 };
 
@@ -89,7 +89,7 @@ const updateBookingStatus = async (req, res) => {
     res.status(200).json(updated);
   } catch (err) {
     console.error(`Error updating booking status: ${err}`);
-    res.status(400).send(`Error updating booking status: ${err.message}`);
+    res.status(500).json({ message: "Could not update booking status" });
   }
 };
 
@@ -101,7 +101,7 @@ const getBookedDates = async (req, res) => {
     res.status(200).json(bookedDates.map((b) => b.event_date));
   } catch (err) {
     console.error(`Error retrieving booked dates: ${err}`);
-    res.status(400).send(`Error retrieving booked dates: ${err.message}`);
+    res.status(500).json({ message: "Could not retrieve booked dates" });
   }
 };
 
